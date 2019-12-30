@@ -1,7 +1,11 @@
 import turtle 
 import time
+import random
+import math
 
 delay = 0.1 
+player_score = 0
+high_score = 0
 
 win = turtle.Screen()
 win.setup(width = 800, height = 800)
@@ -18,6 +22,22 @@ snake.goto(0,0)
 snake.penup()
 snake.direction = "stop"
 
+# mice object
+mice = turtle.Turtle()
+mice.speed(0)
+mice.shape("circle")
+mice.color("red")
+mice.penup()
+mice.goto(100, 0)
+
+# Pen
+pen = turtle.Turtle()
+pen.color("white")
+pen.speed(0)
+pen.penup()
+pen.hideturtle()
+pen.goto(0,360)
+pen.write("Your Score: {}  High Score: {}".format(0, 0), align="center", font=("Comic Sans MS", 24, "bold italic"))
 # movements of snake in all the directions
 def movement():
     if(snake.direction == "up"):
@@ -68,6 +88,7 @@ while True:
     time.sleep(delay)
 
     # boundary conditions
+    # want snake to appear from the opposite edge of the screen
     if(snake.xcor() > 390):
         snake.setx(-390)
     if(snake.xcor() < -390):
@@ -76,4 +97,20 @@ while True:
         snake.sety(-390)
     if(snake.ycor() < -390):
         snake.sety(390)
+    
+    # snake eating mice conditions:
+    # pythagoras theorem is used for 2-D distance
+    if(math.sqrt((snake.xcor() - mice.xcor())**2 + (snake.ycor() - mice.ycor())**2) < 5):
+        player_score += 10
+        xcord = random.randint(-390,390)
+        ycord = random.randint(-390, 390)
+        mice.goto(xcord, ycord)
+    
+
+    if(player_score > high_score):
+        high_score = player_score
+        pen.clear()
+    pen.write("Your Score: {}  High Score: {}".format(player_score, high_score),align="center", font=("Comic Sans MS", 24, "bold italic"))
+
+
     
