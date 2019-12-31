@@ -7,9 +7,10 @@ delay = 0.1
 player_score = 0
 high_score = 0
 
+snake_body = []
 win = turtle.Screen()
 win.setup(width = 800, height = 800)
-win.bgcolor("black")
+win.bgcolor("#030259")
 win.tracer(delay = 0)
 win.title("Snake Game")
 
@@ -21,12 +22,14 @@ snake.color("white")
 snake.goto(0,0)
 snake.penup()
 snake.direction = "stop"
+# snake_body.append(snake)
 
 # mice object
 mice = turtle.Turtle()
 mice.speed(0)
 mice.shape("circle")
 mice.color("red")
+mice.shapesize(stretch_wid=0.7, stretch_len=0.7)
 mice.penup()
 mice.goto(100, 0)
 
@@ -100,17 +103,54 @@ while True:
     
     # snake eating mice conditions:
     # pythagoras theorem is used for 2-D distance
-    if(math.sqrt((snake.xcor() - mice.xcor())**2 + (snake.ycor() - mice.ycor())**2) < 5):
+    if(math.sqrt((snake.xcor() - mice.xcor())**2 + (snake.ycor() - mice.ycor())**2) < 20):
         player_score += 10
-        xcord = random.randint(-390,390)
-        ycord = random.randint(-390, 390)
+        xcord = random.randint(-380,380)
+        ycord = random.randint(-380,380)
         mice.goto(xcord, ycord)
-    
 
-    if(player_score > high_score):
-        high_score = player_score
+        
+        new_part = turtle.Turtle()
+        new_part.speed(0)
+        new_part.shape("square")
+        new_part.color("white")
+        new_part.penup()
+        snake_body.append(new_part)
+        
+        # increasing the size of the snake when it eats mice
+        # x = snake_body[len(snake_body)-2].xcor()
+        # y = snake_body[len(snake_body)-2].ycor()
+        # new_part.goto(x,y)
+
+        # startx = snake.xcor()
+        # starty = snake.ycor()
+        # snake_body[0].goto(startx, starty)
+
+        # if(snake.direction == "right" or snake.direction == "left"):
+        #     snake.shapesize(stretch_len=2)
+        # if(snake.direction == "up" or snake.direction == "down"):
+        #     snake.shapesize(stretch_wid=2)
+
+    
+        if(player_score > high_score):
+            high_score = player_score
         pen.clear()
-    pen.write("Your Score: {}  High Score: {}".format(player_score, high_score),align="center", font=("Comic Sans MS", 24, "bold italic"))
+        pen.write("Your Score: {}  High Score: {}".format(player_score, high_score),align="center", font=("Comic Sans MS", 24, "bold italic"))
 
+    # increase the size of the snake when it eats the mice
+    # above we added a new body part, now we want to make sure the body part also moves with the head
+    i = len(snake_body)-1
+    while(i > 0):
+        xcord = snake_body[i-1].xcor()
+        ycord = snake_body[i-1].ycor()
+        snake_body[i].goto(xcord,ycord)
+        i -= 1
+    # for i = 0
+    if(len(snake_body) > 0):
+        xcord = snake.xcor()
+        ycord = snake.ycor()
+        snake_body[0].goto(xcord,ycord)
+            
 
     
+
