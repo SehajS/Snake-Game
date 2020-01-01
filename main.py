@@ -1,17 +1,17 @@
-import turtle 
+import turtle
 import time
 import random
 import math
 
-delay = 0.1 
+delay = 0.1
 player_score = 0
 high_score = 0
 
 snake_body = []
 win = turtle.Screen()
-win.setup(width = 800, height = 800)
+win.setup(width=800, height=800)
 win.bgcolor("#030259")
-win.tracer(delay = 0)
+win.tracer(delay=0)
 win.title("Snake Game")
 
 # Snake object
@@ -19,10 +19,9 @@ snake = turtle.Turtle()
 snake.shape("square")
 snake.speed(0)
 snake.color("white")
-snake.goto(0,0)
+snake.goto(0, 0)
 snake.penup()
 snake.direction = "stop"
-# snake_body.append(snake)
 
 # mice object
 mice = turtle.Turtle()
@@ -39,9 +38,11 @@ pen.color("white")
 pen.speed(0)
 pen.penup()
 pen.hideturtle()
-pen.goto(0,360)
+pen.goto(0, 360)
 pen.write("Your Score: {}  High Score: {}".format(0, 0), align="center", font=("Comic Sans MS", 24, "bold italic"))
 # movements of snake in all the directions
+
+
 def movement():
     if(snake.direction == "up"):
         y = snake.ycor()
@@ -61,17 +62,22 @@ def movement():
         snake.setx(x)
 
 # changing the direction of the snake
+
+
 def snake_up():
     if snake.direction != "down":
         snake.direction = "up"
+
 
 def snake_down():
     if snake.direction != "up":
         snake.direction = "down"
 
+
 def snake_left():
     if snake.direction != "right":
         snake.direction = "left"
+
 
 def snake_right():
     if snake.direction != "left":
@@ -87,7 +93,7 @@ win.onkeypress(snake_left, "Left")
 
 while True:
     win.update()
-    movement()
+
     time.sleep(delay)
 
     # boundary conditions
@@ -100,23 +106,22 @@ while True:
         snake.sety(-390)
     if(snake.ycor() < -390):
         snake.sety(390)
-    
+
     # snake eating mice conditions:
     # pythagoras theorem is used for 2-D distance
     if(math.sqrt((snake.xcor() - mice.xcor())**2 + (snake.ycor() - mice.ycor())**2) < 20):
         player_score += 10
-        xcord = random.randint(-380,380)
-        ycord = random.randint(-380,380)
+        xcord = random.randint(-380, 380)
+        ycord = random.randint(-340, 340)
         mice.goto(xcord, ycord)
 
-        
         new_part = turtle.Turtle()
         new_part.speed(0)
         new_part.shape("square")
         new_part.color("white")
         new_part.penup()
         snake_body.append(new_part)
-        
+
         # increasing the size of the snake when it eats mice
         # x = snake_body[len(snake_body)-2].xcor()
         # y = snake_body[len(snake_body)-2].ycor()
@@ -131,11 +136,11 @@ while True:
         # if(snake.direction == "up" or snake.direction == "down"):
         #     snake.shapesize(stretch_wid=2)
 
-    
         if(player_score > high_score):
             high_score = player_score
         pen.clear()
-        pen.write("Your Score: {}  High Score: {}".format(player_score, high_score),align="center", font=("Comic Sans MS", 24, "bold italic"))
+        pen.write("Your Score: {}  High Score: {}".format(
+            player_score, high_score), align="center", font=("Comic Sans MS", 24, "bold italic"))
 
     # increase the size of the snake when it eats the mice
     # above we added a new body part, now we want to make sure the body part also moves with the head
@@ -143,14 +148,27 @@ while True:
     while(i > 0):
         xcord = snake_body[i-1].xcor()
         ycord = snake_body[i-1].ycor()
-        snake_body[i].goto(xcord,ycord)
+        snake_body[i].goto(xcord, ycord)
         i -= 1
     # for i = 0
     if(len(snake_body) > 0):
         xcord = snake.xcor()
         ycord = snake.ycor()
-        snake_body[0].goto(xcord,ycord)
-            
+        snake_body[0].goto(xcord, ycord)
 
-    
+    movement()
+    # snake_body collision with itself
+    for body_part in snake_body:
+        if(body_part.distance(snake) < 20):
+            time.sleep(1)
+            snake.goto(0, 0)
+            snake.direction = "stop"
 
+            for part in snake_body:
+                part.goto(700, 700)
+            snake_body.clear()
+
+            player_score = 0
+            pen.clear()
+            pen.write("Your Score: {}  High Score: {}".format(
+                player_score, high_score), align="center", font=("Comic Sans MS", 24, "bold italic"))
