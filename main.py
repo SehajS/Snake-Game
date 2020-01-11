@@ -136,6 +136,20 @@ while True:
         # if(snake.direction == "up" or snake.direction == "down"):
         #     snake.shapesize(stretch_wid=2)
 
+        # increase the size of the snake when it eats the mice
+        # above we added a new body part, now we want to make sure the body part also moves with the head
+        i = len(snake_body)-1
+        while(i > 0):
+            xcord = snake_body[i-1].xcor()
+            ycord = snake_body[i-1].ycor()
+            snake_body[i].goto(xcord, ycord)
+            i -= 1
+        # for i = 0
+        if(len(snake_body) > 0):
+            xcord = snake.xcor()
+            ycord = snake.ycor()
+            snake_body[0].goto(xcord, ycord)
+
         if(player_score > high_score):
             high_score = player_score
         pen.clear()
