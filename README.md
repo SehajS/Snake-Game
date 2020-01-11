@@ -19,14 +19,18 @@ The code contains a basic implementation of snake game, which is created using t
 
 1. Clone this repo on your system
 
-git clone https://github.com/SehajS/Pong-Game.git -b master
+git clone https://github.com/SehajS/Snake-Game.git -b master
 
 or you can download Zip Archive and Extract.
 
-https://github.com/SehajS/Pong-Game/archive/master.zip
+https://github.com/SehajS/Snake-Game/archive/master.zip
 
 2. Open command prompt or terminal inside extracted folder.
 
    py main.py
 
 3. Game Window will open. Follow the rules to play.
+
+
+### References
+The idea is taken from https://www.edureka.co/blog/python-turtle-module/ although, the implementation is different and our game carries different properties especially concerning the boundary conditions. 
