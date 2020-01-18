@@ -3,7 +3,7 @@ import time
 import random
 import math
 
-delay = 0.1
+delay = 0.05
 player_score = 0
 high_score = 0
 
@@ -174,7 +174,7 @@ while True:
     # snake_body collision with itself
     for body_part in snake_body:
         if(body_part.distance(snake) < 20):
-            time.sleep(1)
+            #time.sleep(1)
             snake.goto(0, 0)
             snake.direction = "stop"
 
